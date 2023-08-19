@@ -14,15 +14,20 @@ if (args.Length == 0)
     Environment.Exit(0);
 }
 
-ImgurApiClient client = new ImgurApiClient(AccessToken);
+ImgurApiClient ImgurClient = new ImgurApiClient(AccessToken);
 
 // iterate over all images in args
-foreach (string argument in args) 
+foreach (string argument in args) PostToImgurFromPath(argument, ImgurClient);
+
+Console.ReadLine();
+
+
+async void PostToImgurFromPath(string path, ImgurApiClient client) 
 {
-    if (argument.EndsWith(".png") || argument.EndsWith(".jpg") || argument.EndsWith(".jpeg")) 
+    if (path.EndsWith(".png") || path.EndsWith(".jpg") || path.EndsWith(".jpeg"))
     {
         // load image as base64
-        string imageData = Convert.ToBase64String(FileHandler.ReadImageFile(argument));
+        string imageData = Convert.ToBase64String(FileHandler.ReadImageFile(path));
 
         string response = await client.PostToImgurAsync(imageData);
         string? imageLink = JsonHandler.GetImageLinkFromResponse(response);
@@ -31,7 +36,4 @@ foreach (string argument in args)
         else Console.WriteLine("Error: Could not get link from response.");
     }
 }
-
-Console.ReadLine();
-
 
