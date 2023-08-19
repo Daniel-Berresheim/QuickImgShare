@@ -1,5 +1,0 @@
-C:\Users\Admin\Desktop\QuickImgShare.exe
-C:\Users\Admin\Desktop\QuickImgShare.dll
-C:\Users\Admin\Desktop\QuickImgShare.deps.json
-C:\Users\Admin\Desktop\QuickImgShare.runtimeconfig.json
-C:\Users\Admin\Desktop\QuickImgShare.pdb

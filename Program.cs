@@ -7,7 +7,7 @@ const string ACCESS_TOKEN = "24855467c3079c954ffd4e568a375775494084e2";
 // print a message and close application if no image is provided
 if (args.Length == 0)
 {
-    Console.WriteLine("Drag an image (jpg) on the exe to upload it to Imgur.");
+    Console.WriteLine("Drag an image (jpg or png) on the exe to upload it to Imgur.");
     Console.ReadLine();
     Environment.Exit(0);
 }
