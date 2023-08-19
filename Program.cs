@@ -19,8 +19,8 @@ string imagePath = args[0];
 string imageData = Convert.ToBase64String(FileHandler.ReadImageFile(imagePath));
 
 ImgurApiClient client = new ImgurApiClient(AccessToken);
-string response = client.PostToImgur(imageData);
-string? imageLink = FileHandler.GetImageLinkFromResponse(response);
+string response = await client.PostToImgurAsync(imageData);
+string? imageLink = JsonHandler.GetImageLinkFromResponse(response);
 
 if (imageLink != null) Console.WriteLine("Image uploaded to: " + imageLink);
 else Console.WriteLine("Error: Could not get link from response.");

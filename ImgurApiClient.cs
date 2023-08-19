@@ -17,19 +17,15 @@ namespace QuickImgShare
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         }
 
-        public string PostToImgur(string imageBase64)
+        public async Task<string> PostToImgurAsync(string imageBase64)
         {
-            Task<HttpResponseMessage> responseTask = _httpClient.PostAsync(POST_URL, new StringContent(imageBase64));
-            responseTask.Wait();
-
-            HttpResponseMessage response = responseTask.Result;
+            var response = await _httpClient.PostAsync(POST_URL, new StringContent(imageBase64));
 
             if (response.IsSuccessStatusCode)
             {
-                Task<byte[]> task = response.Content.ReadAsByteArrayAsync();
-                task.Wait();
+                var decodedResponse = await response.Content.ReadAsByteArrayAsync();
 
-                return Encoding.Default.GetString(task.Result);
+                return Encoding.Default.GetString(decodedResponse);
             }
             else 
             {
