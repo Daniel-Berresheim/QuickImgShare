@@ -1,4 +1,5 @@
 ﻿
+using System.IO;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -30,6 +31,29 @@ namespace QuickImgShare
             else 
             {
                 throw new HttpRequestException("Response Error: " + response.StatusCode);
+            }
+        }
+
+        public async void FetchImageFromUrl(string url, string fileName = "download")
+        {
+            string? type = FileHandler.PathGetImageType(url);
+            if (type == null) return;
+
+            try
+            {
+                var response = await _httpClient.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var task = response.Content.ReadAsByteArrayAsync();
+                    task.Wait();
+
+                    File.WriteAllBytes(fileName + "." + type, task.Result);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Could not fetch image: " + e.Message);
             }
         }
     }

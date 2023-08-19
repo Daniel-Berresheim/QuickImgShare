@@ -1,8 +1,6 @@
 ﻿
 // TODO: outsource token to config file?
-//using System.Windows.Forms;
 using QuickImgShare;
-using static System.Net.Mime.MediaTypeNames;
 
 const string AccessToken = "24855467c3079c954ffd4e568a375775494084e2";
 
@@ -24,7 +22,7 @@ Console.ReadLine();
 
 async void PostToImgurFromPath(string path, ImgurApiClient client) 
 {
-    if (path.EndsWith(".png") || path.EndsWith(".jpg") || path.EndsWith(".jpeg"))
+    if (FileHandler.PathGetImageType(path) != null)
     {
         // load image as base64
         string imageData = Convert.ToBase64String(FileHandler.ReadImageFile(path));

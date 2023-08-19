@@ -14,6 +14,14 @@ namespace QuickImgShare
             File.WriteAllBytes(path, image);
         }
 
+        public static string? PathGetImageType(string path) 
+        {
+            if (path.EndsWith(".png")) return "png";
+            else if (path.EndsWith(".jpg")) return "jpg";
+            else if (path.EndsWith(".jpeg")) return "jpeg";
+            else return null;
+        }
+
         // Potential addition to prevent errors from sending too large files? Are there any libraries for this available?
         // public static byte[] ResizeImage(byte[] imageData, int maxWidth, int maxHeight) { }
     }
