@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-
+﻿
 namespace QuickImgShare
 {
     internal static class FileHandler
@@ -16,6 +14,7 @@ namespace QuickImgShare
             File.WriteAllBytes(path, image);
         }
 
-        
+        // Potential addition to prevent errors from sending too large files? Are there any libraries for this available?
+        // public static byte[] ResizeImage(byte[] imageData, int maxWidth, int maxHeight) { }
     }
 }
