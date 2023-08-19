@@ -11,11 +11,10 @@ Planned Features/Improvements:
 * png support
 * download individual images
 * download albums
-* refactor structure with design patterns in mind, split of features
+* refactor structure with design patterns in mind
 * general code rework
 
 Open Bugfixes/Issues:
-* Should not reuse HttpClient
 * Dragging wrong file type on the application results in error
+* Gitignore does not work, should ignore bin and obj
 
-How to get info on where to upload it to? session id in config?
