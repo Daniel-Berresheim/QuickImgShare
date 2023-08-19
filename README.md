@@ -17,4 +17,4 @@ This Windows tool is my first attempt to communicate with API's with OAuth 2 aut
 
 # Open Bugfixes/Issues:
 * Dragging wrong file type on the application results in error
-
+* png uploads do not work sometimes

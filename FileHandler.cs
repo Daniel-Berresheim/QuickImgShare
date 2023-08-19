@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace QuickImgShare
 {
@@ -16,23 +17,25 @@ namespace QuickImgShare
         }
 
         // TODO: error handling
-        public static string GetImgLinkFromResponse(string response) 
+        public static string? GetImageLinkFromResponse(string response) 
         {
-            ImgurGetModel? imgurGet = JsonSerializer.Deserialize<ImgurGetModel>(response);
+            ImgurGetModel? ImgurGet = JsonSerializer.Deserialize<ImgurGetModel>(response);
 
-            return (imgurGet == null) ? "" : imgurGet.data.link;
+            return ImgurGet?.Data?.Link;
         }
     }
 
     public class ImgurGetModel
     {
-        public ImgurGetDataModel data { get; set; }
+        [JsonPropertyName("data")]
+        public ImgurGetDataModel? Data { get; set; }
         public bool success;
         public int status;
     }
 
     public class ImgurGetDataModel
     {
-        public string link { get; set; }
+        [JsonPropertyName("link")]
+        public string? Link { get; set; }
     }
 }

@@ -19,14 +19,14 @@ namespace QuickImgShare
 
         public string PostToImgur(string imageBase64)
         {
-            var responseTask = _httpClient.PostAsync(POST_URL, new StringContent(imageBase64));
+            Task<HttpResponseMessage> responseTask = _httpClient.PostAsync(POST_URL, new StringContent(imageBase64));
             responseTask.Wait();
 
-            var response = responseTask.Result;
+            HttpResponseMessage response = responseTask.Result;
 
             if (response.IsSuccessStatusCode)
             {
-                var task = response.Content.ReadAsByteArrayAsync();
+                Task<byte[]> task = response.Content.ReadAsByteArrayAsync();
                 task.Wait();
 
                 return Encoding.Default.GetString(task.Result);
