@@ -12,7 +12,6 @@ This Windows tool is my first attempt to communicate with API's with OAuth 2 aut
 * download albums
 * refactor structure with design patterns in mind
 * general code rework
-* asynchronous upload/download
 
 # Open Bugfixes/Issues:
 * png uploads do not work for big images, add functionality to automatically downscale them?

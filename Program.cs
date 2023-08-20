@@ -1,5 +1,4 @@
 ﻿
-// TODO: outsource token to config file?
 using QuickImgShare;
 
 const string AccessToken = "24855467c3079c954ffd4e568a375775494084e2";
@@ -12,15 +11,14 @@ if (args.Length == 0)
     Environment.Exit(0);
 }
 
-ImgurApiClient ImgurClient = new ImgurApiClient(AccessToken);
+ImgurApiClient ImgurClient = new(AccessToken);
 
 // iterate over all images in args
 foreach (string argument in args) PostToImgurFromPath(argument, ImgurClient);
 
 Console.ReadLine();
 
-
-async void PostToImgurFromPath(string path, ImgurApiClient client) 
+static async void PostToImgurFromPath(string path, ImgurApiClient client) 
 {
     if (FileHandler.PathGetImageType(path) != null)
     {
