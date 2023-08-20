@@ -5,7 +5,7 @@ using System.Text;
 namespace QuickImgShare
 {
     
-    internal class ImgurApiClient
+    internal class ImgurApiClient : IDisposable
     {
         const string POST_URL = "https://api.imgur.com/3/image";
 
@@ -27,9 +27,9 @@ namespace QuickImgShare
         /// <param name="imageBase64">The image to post in base64 representation. Use Convert.ToBase64String(byteArray) to convert a byte array to this form.</param>
         /// <returns>A task handling the upload. Returns the API response as a string.</returns>
         /// <exception cref="HttpRequestException"></exception>
-        public async Task<string> PostToImgurAsync(string imageBase64)
-        {
-            var response = await _httpClient.PostAsync(POST_URL, new StringContent(imageBase64));
+        public async Task<string> PostToImgurAsync(string base64Image)
+        { 
+            var response = await _httpClient.PostAsync(POST_URL, new StringContent(base64Image));
 
             if (response.IsSuccessStatusCode)
             {
@@ -59,16 +59,20 @@ namespace QuickImgShare
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var task = response.Content.ReadAsByteArrayAsync();
-                    task.Wait();
+                    var result = await response.Content.ReadAsByteArrayAsync();
 
-                    File.WriteAllBytes(fileName + "." + type, task.Result);
+                    _ = File.WriteAllBytesAsync(fileName + "." + type, result);
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine("Could not fetch image: " + e.Message);
             }
+        }
+
+        public void Dispose()
+        {
+            _httpClient.Dispose();
         }
     }
 }

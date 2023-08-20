@@ -4,23 +4,38 @@ namespace QuickImgShare
     internal static class FileHandler
     {
         /// <summary>
-        /// This function returns a byte array of the content of a specified file location. Missing error handling.
+        /// This function returns a byte array of the content of a specified file location. 
         /// </summary>
         /// <param name="path">The local location of the file to read out.</param>
         /// <returns>The content of the file as a byte array.</returns>
         public static byte[] ReadImageFile(string path) 
         {
-            return File.ReadAllBytes(path);
+            try
+            {
+                return File.ReadAllBytes(path);
+            }
+            catch (Exception exception) 
+            {
+                Console.WriteLine("Error reading file: " + exception.Message);
+                return Array.Empty<byte>();
+            }
         }
 
         /// <summary>
-        /// This function saves a byte array to a specified file location. Missing error handling.
+        /// This function saves a byte array to a specified file location.
         /// </summary>
         /// <param name="path">The local location of the file to store the data in.</param>
         /// <param name="image">The data to store as a byte array.</param>
         public static void WriteImageFile(string path, byte[] image) 
         {
-            File.WriteAllBytes(path, image);
+            try
+            {
+                File.WriteAllBytes(path, image);
+            }
+            catch (Exception exception) 
+            {
+                Console.WriteLine("Error writing data to file: " + exception.Message);
+            }
         }
 
         /// <summary>
