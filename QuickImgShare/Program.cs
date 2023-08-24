@@ -36,3 +36,12 @@ static async Task PostToImgurFromPath(string path, ImgurApiClient client)
     }
 }
 
+static async Task GetFromImgurFromUrl(string url, string fileName) 
+{
+    using (ImgurApiClient ImgurClient = new(AccessToken))
+    {
+        byte[]? image = await ImgurClient.GetFromImgur(url);
+
+        if (image != null) _ = File.WriteAllBytesAsync(fileName, image);
+    }
+}

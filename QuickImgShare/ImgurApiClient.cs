@@ -1,6 +1,7 @@
 ﻿
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 
 namespace QuickImgShare
 {
@@ -43,31 +44,58 @@ namespace QuickImgShare
             }
         }
 
-        /// <summary>
-        /// A function to fetch an image file from a specified url and to save it to disk. Supports .png, .jpg and .jpeg.
-        /// </summary>
-        /// <param name="url">The address of the image.</param>
-        /// <param name="fileName">The optional name the saved file will have without file extension. By default, the name will be "download".</param>
-        public async void FetchImageFromUrl(string url, string fileName = "download")
+        public async Task<byte[]?> GetFromImgur(string imageUrl)
         {
-            string? type = FileHandler.PathGetImageType(url);
-            if (type == null) return;
+            try
+            {
+                var response = await _httpClient.GetAsync(imageUrl);
 
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+
+                    ImgurGetModel? imgurGet = JsonSerializer.Deserialize<ImgurGetModel>(result);
+
+                    string? link = imgurGet?.Data?.Link;
+
+                    if (link == null) return null;
+
+                    return await FetchFromUrl(link);
+                }
+                else
+                {
+                    Console.WriteLine("Fetching failed with status code: " + response.StatusCode);
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Could not upload image: " + e.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// A function to fetch data from a specified url. 
+        /// </summary>
+        /// <param name="url">The address of the data.</param>
+        /// <returns>A byte array containing the data downloaded.</returns>
+        public async Task<byte[]?> FetchFromUrl(string url)
+        {
             try
             {
                 var response = await _httpClient.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsByteArrayAsync();
-
-                    _ = File.WriteAllBytesAsync(fileName + "." + type, result);
+                    return await response.Content.ReadAsByteArrayAsync();
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine("Could not fetch image: " + e.Message);
+                Console.WriteLine("Could not fetch data: " + e.Message);
             }
+            return null;
         }
 
         public void Dispose()
