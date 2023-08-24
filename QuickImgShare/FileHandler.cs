@@ -8,7 +8,7 @@ namespace QuickImgShare
         /// </summary>
         /// <param name="path">The local location of the file to read out.</param>
         /// <returns>The content of the file as a byte array.</returns>
-        public static byte[] ReadImageFile(string path) 
+        public static byte[] ReadFile(string path) 
         {
             try
             {
@@ -26,7 +26,7 @@ namespace QuickImgShare
         /// </summary>
         /// <param name="path">The local location of the file to store the data in.</param>
         /// <param name="image">The data to store as a byte array.</param>
-        public static void WriteImageFile(string path, byte[] image) 
+        public static void WriteFile(string path, byte[] image) 
         {
             try
             {
